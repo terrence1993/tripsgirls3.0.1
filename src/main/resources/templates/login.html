@@ -1,0 +1,505 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>TripsGirls</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!--<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII"/>-->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+    <script th:src="@{/resources/pwstrength.js}"></script>
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <!-- GOOGLE FONTS -->
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700' rel='stylesheet' type='text/css'/>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,600' rel='stylesheet' type='text/css'/>
+    <!-- /GOOGLE FONTS -->
+    <link rel="stylesheet" th:href="@{/resources/css/bootstrap.css}" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/resources/css/font-awesome.css}" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/resources/css/icomoon.css}" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/resources/css/styles.css}" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/resources/css/mystyles.css}" type="text/css"/>
+    <script th:src="@{/resources/js/modernizr.js}"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        function validate() {
+            if (document.f.username.value == "" && document.f.password.value == "") {
+                alert(/*[[#{message.username} + #{message.password}]]*/);
+                document.f.username.focus();
+                return false;
+            }
+            if (document.f.username.value == "") {
+                alert([[#{message.username}]]);
+                document.f.username.focus();
+                return false;
+            }
+            if (document.f.password.value == "") {
+                alert([[#{message.password}]]);
+                document.f.password.focus();
+                return false;
+            }
+        }
+        /*]]>*/
+    </script>
+
+
+</head>
+<body>
+<div th:if="${param.message != null}" class="alert alert-info" th:text="${param.message[0]}">message</div>
+
+<div th:if="${param.error != null}" class="alert " th:text="${session[SPRING_SECURITY_LAST_EXCEPTION]}">
+    error
+</div>
+<!-- FACEBOOK WIDGET -->
+<div id="fb-root"></div>
+<!--<script>-->
+    <!--(function(d, s, id) {-->
+        <!--var js, fjs = d.getElementsByTagName(s)[0];-->
+        <!--if (d.getElementById(id)) return;-->
+        <!--js = d.createElement(s);-->
+        <!--js.id = id;-->
+        <!--js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";-->
+        <!--fjs.parentNode.insertBefore(js, fjs);-->
+    <!--}(document, 'script', 'facebook-jssdk'));-->
+<!--</script>-->
+<!-- /FACEBOOK WIDGET -->
+<div class="global-wrap">
+    <header id="main-header">
+        <div class="header-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <a class="logo" href="/">
+                            <img th:src="@{/resources/img/logo-invert.png}"  alt="Image Alternative text" title="Image Title" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- TOP AREA -->
+    <div class="top-area show-onload">
+        <div class="bg-holder full">
+            <div class="bg-mask"></div>
+            <div class="bg-img" style="background-image:url(/static/img/2048x1365.png);"></div>
+            <video class="bg-video hidden-sm hidden-xs" preload="auto" autoplay="true" loop="loop" muted="muted"
+                   poster="/static/img/video-bg.jpg">
+                <source th:src="@{/resources/media/loop.webm}" type="video/webm" />
+                <source th:src="@{/resources/media/loop.mp4}" type="video/mp4" />
+            </video>
+            <div class="bg-content">
+                <div class="container-fluid">
+                    <div class="search-tabs search-tabs-bg search-tabs-abs mt50">
+                        <div class="tabbable">
+                            <ul class="nav nav-tabs" id="myTab">
+                                <li ><a href="#tab-1" data-toggle="tab"><i class="fa fa-sign-in"></i> <span >Log In</span></a>
+                                </li>
+                                <li class="active"><a href="#tab-2" data-toggle="tab"><i class="fa fa-laptop"></i> <span >Registration</span></a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane fade " id="tab-1">
+                                    <h3>Log In</h3>
+
+                                    <form name="f" action="login" method='POST' onsubmit="return validate();">
+                                        <div class="form-group form-group-lg form-group-icon-left"><i class="fa fa-map-marker input-icon"></i>
+                                            <label>Enter existing email</label>
+                                            <input class="form-control" placeholder="Email" name="username" type="email" />
+                                        </div>
+                                        <div class="form-group form-group-lg form-group-icon-left"><i class="fa fa-map-marker input-icon"></i>
+                                            <label>Enter your password</label>
+                                            <input class="form-control" placeholder="Password" name="password" type="password" />
+                                        </div>
+                                        <button class="btn btn-primary btn-lg" type="submit">Enter</button>
+                                        <p><a th:href="@{/forgetPassword.html}">Forgot your password?</a></p>
+
+                                    </form>
+                                </div>
+                                <div class="tab-pane fade in active " id="tab-2">
+                                    <h3>Create Account</h3>
+                                    <form id="reg" action="/"  method="POST" enctype="utf8">
+                                        <div class="tabbable">
+
+                                            <!--<div class="radio">-->
+                                                <!--You are:-->
+                                                <!--<label>-->
+                                                    <!--<input type="radio" name="gender" value="male"/> Male-->
+                                                <!--</label>-->
+                                                <!--<a>   or   </a>-->
+                                                <!--<label>-->
+                                                    <!--<input type="radio" name="gender" value="female"/> Female-->
+                                                <!--</label>-->
+                                            <!--</div>-->
+                                            <div class="tab-content">
+                                                <div class="tab-pane fade in active" >
+                                                    <div class="form-group form-group-lg form-group-icon-left"><i class="fa fa-map-marker input-icon"></i>
+                                                        <label style="float: left" th:text="#{label.user.lastName}">first</label>
+                                                        <input class="form-control"  name="firstName" type="text" value="" required="required"/>
+                                                        <span id="firstNameError" class="alert alert-danger col-sm-4" style="display:none"></span>
+                                                    </div>
+                                                    <div class="tab-pane fade in active" >
+                                                    <label th:text="#{label.user.lastName}">last</label>
+                                                    <span ><input class="form-control" name="lastName" value="" required="required"/></span>
+                                                    <span id="lastNameError" class="alert alert-danger col-sm-4" style="display:none"></span>
+                                                    </div>
+                                                    <div class="form-group form-group-lg form-group-icon-left"><i class="fa fa-map-marker input-icon"></i>
+                                                        <label th:text="#{label.user.email}">email</label>
+                                                        <span ><input type="email" class="form-control" name="email" value="" required="required"/></span>
+                                                        <span id="emailError" class="alert alert-danger col-sm-4" style="display:none"></span>
+                                                    </div>
+                                                    <div class="form-group form-group-lg form-group-icon-left"><i class="fa fa-map-marker input-icon"></i>
+                                                        <label th:text="#{label.user.password}">password</label>
+                                                        <span ><input id="password" class="form-control" name="password" value="" type="password" required="required"/></span>
+                                                        <span id="passwordError" class="alert alert-danger col-sm-4" style="display:none"></span>
+                                                    </div>
+                                                    <div class="form-group form-group-lg form-group-icon-left"><i class="fa fa-map-marker input-icon"></i>
+                                                        <label th:text="#{label.user.confirmPass}">confirm</label>
+                                                        <span ><input id="matchPassword" class="form-control" name="matchingPassword" value="" type="password" required="required"/></span>
+                                                        <span id="globalError" class="alert alert-danger col-sm-4" style="display:none"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-primary btn-lg" type="submit">Finish</button><a> or </a><button class="btn btn-primary btn-lg" type="submit">Via Facebook</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END TOP AREA  -->
+    <div class="container">
+        <div class="gap"></div>
+        <h2 class="text-center">Meet new Users</h2>
+        <div class="gap">
+            <div class="row row-wrap">
+                <div class="col-md-1">
+                    <div class="thumb">
+                        <header class="thumb-header">
+                            <a class="hover-img curved" href="#">
+                                <img th:src="@{/resources/img/800x600.png}" alt="Image Alternative text" title="Upper Lake in New York Central Park" /><i class="fa fa-plus box-icon-white box-icon-border hover-icon-top-right round"></i>
+                            </a>
+                        </header>
+                        <div class="thumb-caption">
+                            <h4 class="thumb-title">USA</h4>
+                            <p class="thumb-desc"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="thumb">
+                        <header class="thumb-header">
+                            <a class="hover-img curved" href="#">
+                                <img th:src="@{/resources/img/800x600.png}" alt="Image Alternative text" title="lack of blue depresses me" /><i class="fa fa-plus box-icon-white box-icon-border hover-icon-top-right round"></i>
+                            </a>
+                        </header>
+                        <div class="thumb-caption">
+                            <h4 class="thumb-title">Greece</h4>
+                            <p class="thumb-desc"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="thumb">
+                        <header class="thumb-header">
+                            <a class="hover-img curved" href="#">
+                                <img th:src="@{/resources/img/800x600.png}" alt="Image Alternative text" title="people on the beach" /><i class="fa fa-plus box-icon-white box-icon-border hover-icon-top-right round"></i>
+                            </a>
+                        </header>
+                        <div class="thumb-caption">
+                            <h4 class="thumb-title">Australia</h4>
+                            <p class="thumb-desc"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="thumb">
+                        <header class="thumb-header">
+                            <a class="hover-img curved" href="#">
+                                <img th:src="@{/resources/img/800x600.png}" alt="Image Alternative text" title="the journey home" /><i class="fa fa-plus box-icon-white box-icon-border hover-icon-top-right round"></i>
+                            </a>
+                        </header>
+                        <div class="thumb-caption">
+                            <h4 class="thumb-title">Africa</h4>
+                            <p class="thumb-desc"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="thumb">
+                        <header class="thumb-header">
+                            <a class="hover-img curved" href="#">
+                                <img th:src="@{/resources/img/800x600.png}" alt="Image Alternative text" title="Upper Lake in New York Central Park" /><i class="fa fa-plus box-icon-white box-icon-border hover-icon-top-right round"></i>
+                            </a>
+                        </header>
+                        <div class="thumb-caption">
+                            <h4 class="thumb-title">USA</h4>
+                            <p class="thumb-desc"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="thumb">
+                        <header class="thumb-header">
+                            <a class="hover-img curved" href="#">
+                                <img th:src="@{/resources/img/800x600.png}" alt="Image Alternative text" title="lack of blue depresses me" /><i class="fa fa-plus box-icon-white box-icon-border hover-icon-top-right round"></i>
+                            </a>
+                        </header>
+                        <div class="thumb-caption">
+                            <h4 class="thumb-title">Greece</h4>
+                            <p class="thumb-desc"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="thumb">
+                        <header class="thumb-header">
+                            <a class="hover-img curved" href="#">
+                                <img th:src="@{/resources/img/800x600.png}" alt="Image Alternative text" title="people on the beach" /><i class="fa fa-plus box-icon-white box-icon-border hover-icon-top-right round"></i>
+                            </a>
+                        </header>
+                        <div class="thumb-caption">
+                            <h4 class="thumb-title">Australia</h4>
+                            <p class="thumb-desc"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="thumb">
+                        <header class="thumb-header">
+                            <a class="hover-img curved" href="#">
+                                <img th:src="@{/resources/img/800x600.png}" alt="Image Alternative text" title="the journey home" /><i class="fa fa-plus box-icon-white box-icon-border hover-icon-top-right round"></i>
+                            </a>
+                        </header>
+                        <div class="thumb-caption">
+                            <h4 class="thumb-title">Africa</h4>
+                            <p class="thumb-desc"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="thumb">
+                        <header class="thumb-header">
+                            <a class="hover-img curved" href="#">
+                                <img th:src="@{/resources/img/800x600.png}" alt="Image Alternative text" title="Upper Lake in New York Central Park" /><i class="fa fa-plus box-icon-white box-icon-border hover-icon-top-right round"></i>
+                            </a>
+                        </header>
+                        <div class="thumb-caption">
+                            <h4 class="thumb-title">USA</h4>
+                            <p class="thumb-desc"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="thumb">
+                        <header class="thumb-header">
+                            <a class="hover-img curved" href="#">
+                                <img th:src="@{/resources/img/800x600.png}" alt="Image Alternative text" title="lack of blue depresses me" /><i class="fa fa-plus box-icon-white box-icon-border hover-icon-top-right round"></i>
+                            </a>
+                        </header>
+                        <div class="thumb-caption">
+                            <h4 class="thumb-title">Greece</h4>
+                            <p class="thumb-desc"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="thumb">
+                        <header class="thumb-header">
+                            <a class="hover-img curved" href="#">
+                                <img th:src="@{/resources/img/800x600.png}" alt="Image Alternative text" title="people on the beach" /><i class="fa fa-plus box-icon-white box-icon-border hover-icon-top-right round"></i>
+                            </a>
+                        </header>
+                        <div class="thumb-caption">
+                            <h4 class="thumb-title">Australia</h4>
+                            <p class="thumb-desc"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="thumb">
+                        <header class="thumb-header">
+                            <a class="hover-img curved" href="#">
+                                <img th:src="@{/resources/img/800x600.png}" alt="Image Alternative text" title="the journey home" /><i class="fa fa-plus box-icon-white box-icon-border hover-icon-top-right round"></i>
+                            </a>
+                        </header>
+                        <div class="thumb-caption">
+                            <h4 class="thumb-title">Africa</h4>
+                            <p class="thumb-desc"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer id="main-footer">
+        <div class="container">
+            <div class="row row-wrap">
+                <div class="col-md-4">
+                    <h4>Newsletter</h4>
+                    <form>
+                        <label>Enter your E-mail Address</label>
+                        <input type="text" class="form-control"/>
+                        <p class="mt5"><small>*We Never Send Spam</small>
+                        </p>
+                        <input type="submit" class="btn btn-primary" value="Subscribe"/>
+                    </form>
+                </div>
+                <div class="col-md-4">
+                    <ul class="list-1 list-footer">
+                        <li><a href="#">About US</a>
+                        </li>
+                        <li><a href="#">Press Centre</a>
+                        </li>
+                        <li><a href="#">Best Price Guarantee</a>
+                        </li>
+                        <li><a href="#">Travel News</a>
+                        </li>
+                        <li><a href="#">Jobs</a>
+                        </li>
+                        <li><a href="#">Privacy Policy</a>
+                        </li>
+                        <li><a href="#">Terms of Use</a>
+                        </li>
+                        <li><a href="#">Feedback</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <a class="logo" href="/">
+                        <img th:src="@{/resources/img/logo-invert.png}" alt="Image Alternative text" title="Image Title" />
+                    </a>
+                    <p class="mb20">Booking, reviews and advices on hotels, resorts, flights, vacation rentals, travel packages, and lots more!</p>
+                    <ul class="list list-horizontal list-space">
+                        <li>
+                            <a class="fa fa-facebook box-icon-normal round animate-icon-bottom-to-top" href="#"></a>
+                        </li>
+                        <li>
+                            <a class="fa fa-twitter box-icon-normal round animate-icon-bottom-to-top" href="#"></a>
+                        </li>
+                        <li>
+                            <a class="fa fa-google-plus box-icon-normal round animate-icon-bottom-to-top" href="#"></a>
+                        </li>
+                        <li>
+                            <a class="fa fa-linkedin box-icon-normal round animate-icon-bottom-to-top" href="#"></a>
+                        </li>
+                        <li>
+                            <a class="fa fa-pinterest box-icon-normal round animate-icon-bottom-to-top" href="#"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="text-center">
+                <p>Copyright &copy; 2017 - <a href="/">Trips Girls</a> | All Rights Reserved</p>
+            </div>
+        </div>
+    </footer>
+</div>
+    <script th:src="@{/resources/js/jquery.js}" type="text/javascript"></script>
+    <script th:src="@{/resources/js/bootstrap.js}"></script>
+    <script th:src="@{/resources/js/slimmenu.js}"></script>
+    <script th:src="@{/resources/js/bootstrap-datepicker.js}"></script>
+    <script th:src="@{/resources/js/bootstrap-timepicker.js}"></script>
+    <script th:src="@{/resources/js/nicescroll.js}"></script>
+    <script th:src="@{/resources/js/dropit.js}"></script>
+    <script th:src="@{/resources/js/ionrangeslider.js}"></script>
+    <script th:src="@{/resources/js/icheck.js}"></script>
+    <script th:src="@{/resources/js/fotorama.js}"></script>
+    <!--<script th:src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>-->
+    <script th:src="@{/resources/js/typeahead.js}"></script>
+    <script th:src="@{/resources/js/card-payment.js}"></script>
+    <script th:src="@{/resources/js/magnific.js}"></script>
+    <script th:src="@{/resources/js/owl-carousel.js}"></script>
+    <script th:src="@{/resources/js/fitvids.js}"></script>
+    <script th:src="@{/resources/js/tweet.js}"></script>
+    <script th:src="@{/resources/js/countdown.js}"></script>
+    <script th:src="@{/resources/js/gridrotator.js}"></script>
+    <script th:src="@{/resources/js/custom.js}"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var serverContext = [[@{/}]];
+
+    $(document).ready(function () {
+        $("#reg").submit(function(event) {
+            register(event);
+        });
+
+        $(":password").keyup(function(){
+            if($("#password").val() != $("#matchPassword").val()){
+                $("#globalError").show().html([[#{PasswordMatches.user}]]);
+            }else{
+                $("#globalError").html("").hide();
+            }
+        });
+
+        options = {
+            common: {minChar:8},
+            ui: {
+                showVerdictsInsideProgressBar:true,
+                showErrors:true,
+                errorMessages:{
+                    wordLength: [[#{error.wordLength}]],
+                    wordNotEmail: [[#{error.wordNotEmail}]],
+                    wordSequences: [[#{error.wordSequences}]],
+                    wordLowercase: [[#{error.wordLowercase}]],
+                    wordUppercase: [[#{error.wordUppercase}]],
+                    wordOneNumber: [[#{error.wordOneNumber}]],
+                    wordOneSpecialChar: [[#{error.wordOneSpecialChar}]]
+                }
+            }
+        };
+        $('#password').pwstrength(options);
+    });
+
+    function register(event){
+        event.preventDefault();
+        $(".alert").html("").hide();
+        $(".error-list").html("");
+        if($("#password").val() != $("#matchPassword").val()){
+            $("#globalError").show().html([[#{PasswordMatches.user}]]);
+            return;
+        }
+        var formData= $("#reg").serialize();
+        $.post(serverContext + "user/registration",formData ,function(data){
+            if(data.message == "success"){
+                window.location.href = serverContext + "successRegister.html";
+            }
+
+        })
+            .fail(function(data) {
+                if(data.responseJSON.error.indexOf("MailError") > -1)
+                {
+                    window.location.href = serverContext + "emailError.html";
+                }
+                else if(data.responseJSON.error == "UserAlreadyExist"){
+                    $("#emailError").show().html(data.responseJSON.message);
+                }
+                else if(data.responseJSON.error.indexOf("InternalError") > -1){
+                    window.location.href = serverContext + "login?message=" + data.responseJSON.message;
+                }
+                else{
+                    var errors = $.parseJSON(data.responseJSON.message);
+                    $.each( errors, function( index,item ){
+                        $("#"+item.field+"Error").show().html(item.defaultMessage);
+                    });
+                    errors = $.parseJSON(data.responseJSON.error);
+                    $.each( errors, function( index,item ){
+                        $("#globalError").show().append(item.defaultMessage+"<br/>");
+                    });
+                }
+            });
+    }
+    /*]]>*/
+
+</script>
+</body>
+</html>
